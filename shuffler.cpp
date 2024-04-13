@@ -1,3 +1,5 @@
+//solved inefficiency and duplicates by fixing shuffling algorithm
+
 #include <iostream>
 #include <cstdlib>
 #include <time.h>
@@ -14,13 +16,12 @@ void checkSame() {
             currentSum+=table[i][s];
         }
         for(int j=0;j<=12;j++){
-            std::cout<<"comparing #"<<j<<std::endl;
             checkedNum = table[i][j];
             for(int k=0;k<=12;k++){
                 if(j!=k) {
                     checkingNum=table[i][k];
                     if(checkedNum == checkingNum) {
-                        std::cout<<"found duplicate #" << i*j << std::endl;
+                        std::cout<<"found duplicate at " << i << "," << j << std::endl;
                         duplicates++;
                         if(currentSum < 104) {
                             checkingNum += 104-currentSum;
@@ -64,36 +65,33 @@ void show() {
 void shuffle() {
     reps=0;
 
-    order();
-
     srand(time(NULL));
 
-    for(int i = 0; i<=20; i++) {
+    for(int i = 0; i<=50; i++) {
         int temp1,temp2;
         int r = rand() % 4;
-        int j1 = rand() % 13 + 1;
-        int j2 = rand() % 13 + 1;
+        int j1 = rand() % 13;
+        int j2 = rand() % 13;
         if( j1 != j2 and table[r][j1] != table[r][j2]) {
             temp1 = table[r][j1];
             temp2 = table[r][j2];
             table[r][j1] = temp2;
             table[r][j2] = temp1;
-
-            show();
-            std::cout<<std::endl;
         }
     }
 
-    checkSame();
-    while(duplicates>=1){
-        if(reps>=5) {
-            shuffle();
-            break;
-        }
-        std::cout<<"found "<<duplicates<<" duplicates \n";
-        reps++;
-        checkSame();
-    }
+    std::cout<<"shuffled! \n";
+
+    //checkSame();
+    //while(duplicates>=1){
+        //if(reps>=10) {
+            //shuffle();
+            //break;
+        //}
+        //std::cout<<"found "<<duplicates<<" duplicates \n";
+        //reps++;
+        //checkSame();
+    //}
 
 }
 
